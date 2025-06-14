@@ -1,0 +1,91 @@
+package application;
+	
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class Book implements Serializable {
+    String title, author, genre, isbn;
+    int publicationYear;
+    boolean isAvailable;
+
+    public Book(String title, String author, String genre, String isbn, int publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.isbn = isbn;
+        this.publicationYear = publicationYear;
+        this.isAvailable = true;
+    }
+}
+
+class Member implements Serializable {
+    String name, memberId, email, phoneNumber, membershipType;
+    public Member(String name, String memberId, String email, String phoneNumber, String membershipType) {
+        this.name = name;
+        this.memberId = memberId;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.membershipType = membershipType;
+    }
+}
+
+public class Main extends Application {
+    private List<Book> books = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
+    
+    @Override
+    public void start(Stage primaryStage) {
+        VBox root = new VBox();
+        Label label = new Label("Welcome to the Library Management System");
+        Button addBookButton = new Button("Add Book");
+        Button addMemberButton = new Button("Add Member");
+        
+        addBookButton.setOnAction(e -> addBook());
+        addMemberButton.setOnAction(e -> addMember());
+        
+        root.getChildren().addAll(label, addBookButton, addMemberButton);
+        
+        Scene scene = new Scene(root, 600, 400);
+        primaryStage.setTitle("Library Management System");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    private void addBook() {
+        Book newBook = new Book("Sample Book", "Author", "Genre", "123456789", 2024);
+        books.add(newBook);
+        saveBooks();
+    }
+    
+    private void addMember() {
+        Member newMember = new Member("John Doe", "M123", "john@example.com", "1234567890", "Standard");
+        members.add(newMember);
+        saveMembers();
+    }
+    
+    private void saveBooks() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("books.dat"))) {
+            oos.writeObject(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void saveMembers() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("members.dat"))) {
+            oos.writeObject(members);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

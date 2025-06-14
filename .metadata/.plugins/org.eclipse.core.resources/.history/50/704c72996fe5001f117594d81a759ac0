@@ -1,0 +1,84 @@
+package application;
+
+import java.util.ArrayList;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+
+class Asset{
+	String name;
+	double price;
+	
+	public Asset(String name,double price) {
+		this.name = name;
+		this.price = price;
+	}
+	//getters
+	public String getAssetName() {
+		return name;
+	}
+	public double getAssetPrice() {
+		return price;
+	}
+}
+
+class Stock extends Asset{
+	double openingPrice;
+	double previousClosingPrice;
+	
+	public Stock(String name,double price,double openingPrice,double previousClosingPrice) {
+		super(name,price);
+		this.openingPrice = openingPrice;
+		this.previousClosingPrice = previousClosingPrice;
+	}
+	//getters
+	public double getOpeningPrice() {
+		return openingPrice;
+	}
+	public double getPreviousClosingPrice() {
+		return previousClosingPrice;
+	}
+	//Volatility calculation
+	public double calculateVolatility() {
+		return (openingPrice - previousClosingPrice) / (previousClosingPrice * 100);
+	}
+}
+
+class Bond extends Asset{
+	double interestRate;
+	int maturityYears;
+	
+	public Bond(String name,double price,double interestRate,int maturityYears) {
+		super(name,price);
+		this.interestRate = interestRate;
+		this.maturityYears = maturityYears;
+	}
+	//getters
+	public double getInterestRate() {
+		return interestRate;
+	}
+	public int getMaturityYears() {
+		return maturityYears;
+	}
+	//Amount of interest rate that has been generated calculation method
+	public double calculateGeneratedInterest() {
+		return this.price * (interestRate / 100);
+	}
+}
+
+public class Main extends Application {
+	//Start
+	ArrayList<Stock> stocksList = new ArrayList<>();
+	ArrayList<Bond> bondsList = new ArrayList<>();
+	
+	@Override
+	public void start(Stage primaryStage) {
+		//Start
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}

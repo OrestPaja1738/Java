@@ -1,0 +1,219 @@
+public Node<E> insert(Node<E> Root,E data){
+    if(root == null){
+        root = new Node<E>(data);
+    }
+    else{
+        if(data > root.data){
+            if(root.right == null){
+                root.right = new Node<E>(data);
+            }
+            else{
+                root.right = insert(root.right,data);
+            }
+        }
+        if(data < root.data){
+            if(root.left == null){
+                root.left = new Node<E>(data);
+            }
+            else{
+                root.left = insert(root.left,data);
+            }
+        }
+        return root;
+    }
+}
+
+
+public class BinaryTreeTheory<E> {
+    
+    private TreeNode<E>{
+        private E data;
+        private Node<E> left;
+        private Node<E> right;
+
+        public TreeNode(E data){
+            this.data = data;
+        }
+    }
+    
+    private Node<E> root;
+
+    public BinaryTreeTheory() {
+        root = null;
+    }
+
+    public void insert(TreeNode<E> root,E data){
+        if (root == null) {//empty tree
+            root = new TreeNode<E>(data);
+        }
+        else{//non empty tree
+
+        }
+    }
+}
+
+
+public boolean foo(Node<E> head1,Node<E> head2){
+    boolean status;
+    Node<E> trav1 = head1;
+    Node<E> trav2;
+
+    ArrayList<Node<E>> flag  = new ArrayList<>();
+
+    while(trav1 != null){
+        trav2 = head2;
+        status = false;
+        while(trav2 != null){
+            if(trav1.data == trav2.data){
+                if(flag.contains(trav2)){
+                    continue;
+                }
+                else{
+                    status = true;
+                    flag.add(trav2);
+                    break;
+                }
+            }
+            trav2 = trav2.next;
+        }
+        if(!status)
+        return false;
+
+        trav1 = trav1.next;
+    } 
+
+    return true;
+}
+
+public void foo(int k){
+    if(head == null || getSize() == 1){
+        return;
+    }
+    else{
+        tail.next = head;
+        Node<E> trav = head;
+        for(int i = 0;i < getSize() - 1 - k;i++){
+            trav = trav.next;
+        }
+        head = trav.next;
+        trav.next = null;
+        tail = trav;
+    }
+}
+
+public void foo(){
+    if(head == null || getSize() == 1){
+        return;
+    }
+    else{
+        Node<E> curr = head,prev = null;
+        while(curr != null){
+            Node<E> tmp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = tmp;
+        } 
+    }
+}
+
+public void foo(E data){//add at end
+    if(head == null){
+        head = new Node<E>(data);
+        tail = head;
+        return;
+    }
+    else{
+        tail.next = new Node<E>(data);
+        tail = tail.next;
+        return;
+    }
+}
+
+public E foo(){//remove first
+    if(head == null){
+        return null;
+    }
+    else{
+        E tmp = head.data;
+        head = head.next;
+        return tmp;
+    }
+}
+
+public void enqueue(E data){
+    if(front == -1 && rear == -1){//empty
+        arr[++front] = data;
+        rear = front;
+        size++;
+        return;
+    }
+    if(size == arr.length){
+        throw new Exception("Message");
+        return;
+    }
+    else{
+        rear = (rear + 1) % arr.length;
+        arr[rear] = data;
+        size++;
+        return; 
+    }
+}
+
+public E dequeue(){
+    if(front == -1 && rear == -1){
+        return null;
+    }
+    else{
+        E data = arr[front];
+        arr[front] = null;
+        front = (front + 1) % arr.length;
+        size -= 1;
+        if(size == 0){
+            front = -1;
+            rear = front;
+        }
+    }
+    return data;
+}
+
+public void foo(int arr[],int left,int right){
+    if(left == right){
+        return;
+    }
+    else{
+        if(arr[left] % 2 == 0){
+            foo(arr[],++left,right);
+        }
+        else{
+            if(arr[right] % 2 != 0){
+                foo(arr[],left,--right);
+            }
+            else{
+                tmp = arr[right];
+                arr[right] = arr[left];
+                arr[left] = tmp;
+                foo(arr[],++left,right);
+            }
+        }
+        return;
+    }
+}
+
+public void foo(int arr[],int left,int right,int k){
+    if(left >= right){
+        System.out.println("Pair not found");
+        return;
+    }
+    else{
+        if(arr[left] + arr[right] > k){
+            foo(arr,left,--right,k);
+        }
+        if(arr[left] + arr[right] <= k){
+            foo(arr,++left,right,k);
+        }
+        if(arr[left] + arr[right] == k){
+            System.out.println(arr[left] + " " + arr[right]);
+            return;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+public void BFS(int start){
+    queue = new queue; //THIS IS JUST ROUGH IDEA IT ISNT MEANT FOR IT TO BE CODE
+    arraylist<integer> visitedList = new arraylist<>();
+    starting_node = graph.get(start);
+    queue.enqueue(starting_node);
+    while(queue.isEmpty() != null){
+        if(visitedList.contains(queue.top()) != 1){
+            visitedList.add(queue.top());
+            for(int i = 0; i < graph.get(queue.top()).length;i++){
+                queue.enqueue(graph.get(queue.top()).get(i));
+            }
+        }
+        queue.dequeue();
+    }
+    //then the visited list will be printed out
+}
+
+for clarity the graph class would look like this:
+
+public class Graph{
+    ArrayList<ArrayList<Integer>> graph;
+    int V;//nr of nodes
+
+    Graph(int node){
+        V = node;
+        graph = new ArrayList<>(V);
+        for(int i = 0; i < V;i++){
+            graph.get(i).add(new ArrayList<>());
+        }
+    }
+}

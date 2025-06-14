@@ -1,0 +1,25 @@
+package application;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class Book implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String title, author, genre, isbn;
+    int publicationYear;
+    boolean isAvailable;
+    String borrowedBy;
+    LocalDate dueDate;
+
+    public Book(String title, String author, String genre, String isbn, int publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.isbn = isbn;
+        this.publicationYear = publicationYear;
+        this.isAvailable = true;
+    }
+}

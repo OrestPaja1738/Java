@@ -1,0 +1,112 @@
+--reversing SLL
+public void foo(){
+    if(head == null || getSize() == 1){
+        return;
+    }
+    else{
+        Node<E> curr = head,prev = null;
+        while(curr != null){
+            Node<E> tmp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = tmp;
+        }
+        head = prev;
+        return;
+    }
+}
+
+--array implementation of a stack
+
+public class Stack<E> implements StackInterface<E>{
+    private E[] arr;
+    private int sP;
+    private int size;
+
+    public Stack(int x){
+        arr = (E[]) new Object[x];
+        sP = -1;
+        size = 0;
+    }
+
+    @Override
+    public void push(E val){
+        if(size = arr.length){
+            throw new IllegalStateException("Stack full");
+            return;
+        }
+        else{
+            arr[++sP] = val;
+            size++;
+            return;
+        }
+    }
+    @Override
+    public E pop(){
+        if(size == 0){
+            return null;
+        }
+        else{
+            E tmp = arr[sP];
+            arr[sP--] = null;
+            size--;
+
+            return tmp;
+        }
+    }
+}
+
+--LL implementation of a stack
+
+public class Stack<E> implements StackInterface<E>{
+
+    private LinkedList<E> list;
+
+    public Stack(){
+        list = new LinkedList<>();
+    }
+
+    @Override
+    public void push(E val){
+        list.prepend(val);
+    }
+    @Override
+    public E pop(){
+        return list.removeFirst();
+    }
+}
+
+--inserting for circular lists
+
+public void insert(E data){
+    if(tail == null){
+        tail = new Node<E>(data);
+        tail.next = tail;
+        size++;
+    }
+    else{
+        tail.next = new Node<E>(data);
+        Node<E> tmp = tail;
+        tail = tail.next;
+        tail.next = tmp;
+        size++;
+    }
+}
+
+--rotating a list
+
+public void rotate(int k){
+    if(head == null || getSize() == 1){
+        return;
+    }
+    else{
+        tail.next = head;
+        Node<E> curr = head;
+        for(int i = 0; i < getSize() - k - 1;i++){
+            curr = curr.next;
+        }
+        head = curr.next;
+        curr.next = null;
+        tail = curr;
+    }
+}

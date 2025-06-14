@@ -1,0 +1,173 @@
+package application;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+class Book implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String title, author, genre, isbn;
+    int publicationYear;
+    boolean isAvailable;
+    String borrowedBy;
+    LocalDate dueDate;
+
+    public Book(String title, String author, String genre, String isbn, int publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.isbn = isbn;
+        this.publicationYear = publicationYear;
+        this.isAvailable = true;
+    }
+}
+
+class Member implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String name, memberId, email, phoneNumber, membershipType;
+    public Member(String name, String memberId, String email, String phoneNumber, String membershipType) {
+        this.name = name;
+        this.memberId = memberId;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.membershipType = membershipType;
+    }
+}
+
+public class Main extends Application {
+	
+	private List<Book> books = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
+    
+    @Override
+    public void start(Stage primaryStage) {
+    	
+    	loadBooks();
+    	loadMembers();
+    	
+    	VBox root = new VBox();
+        Label label = new Label("Welcome to the Library Management System");
+        Button addBookButton = new Button("Add Book");
+        Button addMemberButton = new Button("Add Member");
+        Button searchBookButton = new Button("Search Book");
+        Button issueBookButton = new Button("Issue Book");
+        Button returnBookButton = new Button("Return Book");
+        
+        addBookButton.setOnAction(e -> addBook());
+        addMemberButton.setOnAction(e -> addMember());
+        searchBookButton.setOnAction(e -> searchBook());
+        issueBookButton.setOnAction(e -> issueBook());
+        returnBookButton.setOnAction(e -> returnBook());
+        
+        root.getChildren().addAll(label, addBookButton, addMemberButton, searchBookButton, issueBookButton, returnBookButton);
+        
+        Scene scene = new Scene(root, 400, 300);
+        
+        primaryStage.setTitle("Library Management System");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    private void loadBooks() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("books.dat"))) {
+            books = (List<Book>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            books = new ArrayList<>();
+        }
+    }
+    private void loadMembers() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("members.dat"))) {
+            members = (List<Member>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            members = new ArrayList<>();
+        }
+    }
+    
+    private void addBook() {
+        Book newBook = new Book("Sample Book", "Author", "Genre", "123456789", 2024);
+        books.add(newBook);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("books.dat"))) {
+            oos.writeObject(books);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void addMember() {
+        Member newMember = new Member("John Doe", "M123", "john@example.com", "1234567890", "Standard");
+        members.add(newMember);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("members.dat"))) {
+            oos.writeObject(members);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void searchBook() {
+        String searchTerm = "Sample Book";
+        List<Book> results = books.stream()
+                .filter(book -> book.title.equalsIgnoreCase(searchTerm))
+                .collect(Collectors.toList());
+        System.out.println("Search Results: " + results.size());
+    }
+    private void issueBook() {
+        for (Book book : books) {
+            if (book.isAvailable) {
+                book.isAvailable = false;
+                book.borrowedBy = "M123";
+                book.dueDate = LocalDate.now().plusDays(14);
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("books.dat"))) {
+                    oos.writeObject(books);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Book issued successfully");
+                return;
+            }
+        }
+        System.out.println("No available books to issue");
+    }
+    private void returnBook() {
+        for (Book book : books) {
+            if (!book.isAvailable && book.borrowedBy.equals("M123")) {
+                long overdueDays = ChronoUnit.DAYS.between(book.dueDate, LocalDate.now());
+                double fine = overdueDays > 0 ? overdueDays * 1.0 : 0;
+                book.isAvailable = true;
+                book.borrowedBy = null;
+                book.dueDate = null;
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("books.dat"))) {
+                    oos.writeObject(books);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Book returned. Fine: $" + fine);
+                return;
+            }
+        }
+        System.out.println("No books to return");
+    }
+    
+    public static void main(String[] args) {
+        launch(args);
+    }
+}

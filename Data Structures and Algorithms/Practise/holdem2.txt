@@ -1,0 +1,121 @@
+public Node<E> delete(E val){
+    return delete(root,val);
+}
+public Node<E> delete(Node<E>root,E val){
+    if(root == null){
+        return root;
+    }
+    else{
+        if((Comparable)val.compareTo(root.data) > 0){
+            root.right = delete(root.right,val);
+        }
+        if((Comparable)val.compareTo(root.data) < 0){
+            root.left = delete(root.left,val);
+        }
+        else{//found
+            if(root.left == null && root.right == null){
+                return null;
+            }
+            if(root.right == null){
+                return root.left;
+            }
+            else if(root.left == null){
+                return root.right;
+            }
+            else{
+                E minV = findMin(root.right);
+                root.data = minV;
+                root.right = delete(root.right,minV);
+            }
+        }
+        return root;
+    }
+}
+
+public E findMin(Node<E> root){
+    if(root == null){
+        return null;
+    }
+    else{
+        Node<E> tmp = root;
+        while(tmp.left != null){
+            tmp = tmp.left;
+        }
+        return tmp.data;
+    }
+}
+
+
+-----------------
+AVL insertion
+
+public Node<E> AVLinsert(Node<E> root,E val){
+    if(root == null){
+        root = new Node<E>(val);
+        return root;
+    }
+    else{
+        if(((Comparable<E>)val).compareTo(root.data) > 0){
+            root.right = AVLinsert(root.right,val);
+        }
+        if(((Comparable<E>)val).compareTo(root.data) < 0){
+            root.left = AVLinsert(root.left,val);
+        }
+        root.height = 1 + Math.max(heightFoo(root.left),heightFoo(root.right));
+
+        int balance = heightFoo(root.left) - heightFoo(root.right);
+
+        if(balance > 1 && val < root.left.data){
+            return rotateRight(root);
+        }
+        else if(balance > 1 && val > root.left.data){
+            root.left = rotateLeft(root.left);
+            return rotateRight(root);
+        }
+
+        if(balance < -1 && val > root.right.data){
+            return rotateLeft(root);
+        }
+        else if(balance < -1 && val < root.right.data){
+            root.right = rotateRight(root.right);
+            return rotateLeft(root);
+        }
+
+        return root;
+    }
+}
+
+public int heightFoo(Node<E> node){
+    if(node == null){
+        return 0;
+    }
+    else{
+        return node.height;
+    }
+}
+
+public Node<E> rotateRight(Node<E> root){
+    Node<E> x = root.left;
+    Node<E> tmp = x.right;
+
+    x.right = root;
+    root.left = tmp;
+
+    x.height = 1 + Math.max(heightFoo(x.left),heightFoo(x.right));
+    root.height = 1 + Math.max(heightFoo(root.left),heightFoo(root.right));
+
+    return x;
+}
+
+public Node<E> rotateLeft(Node<E> root){
+    Node<E> x = root.right;
+    Node<E> tmp = x.left;
+
+    x.left = root;
+    root.right = tmp;
+
+    x.height = 1 + Math.max(heightFoo(x.left),heightFoo(x.right));
+    root.height = 1 + Math.max(heightFoo(root.left),heightFoo(root.right));
+
+    return x;
+}

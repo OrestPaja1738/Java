@@ -1,0 +1,84 @@
+public Node foo(int key){
+        
+        if (root == null) {
+            return null;
+        }
+
+        Node curr = root,prev = null;
+        
+        while (curr != null) { 
+            if (curr.val == key) {
+                if (curr.left == null && curr.right == null) {//no children
+                    if (prev.left == curr) {//can it even dereference a null ptr
+                        Node tmp = curr;
+                        prev.left = null;
+                        return  tmp;
+                    }
+                    else{
+                        Node tmp = curr;
+                        prev.right = null;
+                        return  tmp;
+                    }
+                }
+                if (curr.left == null && curr.right != null || curr.left != null && curr.right == null) {
+                    //1 child case
+                    if (prev.left == curr) {
+                        if (curr.left == null) {
+                            Node tmp = curr;
+                            prev.left = curr.right;
+                            return tmp;
+                        }
+                        else{
+                            Node tmp = curr;
+                            prev.left = curr.left;
+                            return tmp;
+                        }
+                    }
+                    else{//prev.right == curr
+                        if (curr.left == null) {
+                            Node tmp = curr;
+                            prev.right = curr.right;
+                            return tmp;
+                        }
+                        else{
+                            Node tmp = curr;
+                            prev.right = curr.left;
+                            return tmp;
+                        }
+                    }
+                }
+                if (curr.left == null && curr.right == null) {
+                    //placeholder
+                }
+            }
+        }
+    }
+
+
+
+    ---------------------------------------
+
+    else{
+        if(parent == null){
+            Node tmp = curr;
+            curr.val = inorderSuccessor(curr.right);
+            Node x = curr.right,y = curr;
+            while(x != null){
+                y = x;
+                x = x.left;
+            }
+            if(x.left == null && x.right == null){
+                y.left = null;
+            }
+            else if(x.right != null){
+                y.left = x.right;
+            }
+            else if(x.left != null){
+                y.left = x.left;
+            }
+            return tmp;
+        }
+        else{
+            YADDA YADDA
+        }
+    }

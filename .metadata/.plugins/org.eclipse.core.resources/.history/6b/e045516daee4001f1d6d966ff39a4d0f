@@ -1,0 +1,18 @@
+package application;
+
+import java.io.Serializable;
+
+public class Member implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String name, memberId, email, phoneNumber, membershipType;
+    public Member(String name, String memberId, String email, String phoneNumber, String membershipType) {
+        this.name = name;
+        this.memberId = memberId;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.membershipType = membershipType;
+    }
+}

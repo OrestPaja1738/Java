@@ -1,0 +1,31 @@
+public class ex4 {
+    //check is 2 lists are identical
+    //FAILED 
+    public boolean foo(LinkedList<Integer>one,LinkedList<Integer>two){
+        HashMap<Node,Node> map = new HashMap<>(); //this is just for idea
+        Node curr1 = one.getHead();
+
+        while (curr1!= null) { 
+            Node curr2 = two.getHead();
+            while (curr2 != null) { 
+                if (curr1.data == curr2.data) {
+                    if (map.containsValue(curr2) != true) {
+                        map.put(curr1,curr2);
+                        break;
+                    }
+                }
+                curr2 = curr2.next;
+            }
+            curr1 = curr1.next;
+        }
+
+        Node x  = one.getHead();
+        while (x != null) { 
+            if(map.containsKey(x) != true){
+                return  false;
+            }
+            x = x.next;
+        }
+        return true;
+    }
+}

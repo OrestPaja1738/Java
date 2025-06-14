@@ -1,0 +1,17 @@
+Binary Search:
+https://leetcode.com/problem-list/binary-search/
+
+1.https://leetcode.com/problems/maximum-number-of-alloys/description/?envType=problem-list-v2&envId=binary-search
+Solved - but not via binary search
+2.https://leetcode.com/problems/house-robber-iv/description/?envType=problem-list-v2&envId=binary-search
+Solved - but misunderstood what k actually represented,however solution works as intended
+3.https://leetcode.com/problems/successful-pairs-of-spells-and-potions/description/?envType=problem-list-v2&envId=binary-search
+Solved - albeit not with binary search but with two ptrs and complexity of O(n*m)
+
+Sliding Window:
+1.https://leetcode.com/problems/maximum-coins-from-k-consecutive-bags/description/?envType=problem-list-v2&envId=sliding-window
+2.https://leetcode.com/problems/reschedule-meetings-for-maximum-free-time-i/description/?envType=problem-list-v2&envId=sliding-window
+3.https://leetcode.com/problems/grumpy-bookstore-owner/description/?envType=problem-list-v2&envId=sliding-window
+4.https://leetcode.com/problems/new-21-game/description/?envType=problem-list-v2&envId=sliding-window
+5.https://leetcode.com/problems/fruit-into-baskets/description/?envType=problem-list-v2&envId=sliding-window
+6.https://leetcode.com/problems/minimum-size-subarray-sum/description/?envType=problem-list-v2&envId=sliding-window
